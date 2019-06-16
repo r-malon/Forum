@@ -26,6 +26,8 @@ def signup():
 			name=name, 
 			password=sha256(psw.encode()), 
 			join_date=datetime.now())
+	session['username'] = name
+	session['logged'] = True
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -36,6 +38,18 @@ def login():
 	except Exception as e:
 		query = False
 		print('Error: ', e)
+	session['username'] = name
+	session['logged'] = True
+
+@app.route('/logout')
+def logout():
+	try:
+		session.pop('username')
+	except KeyError:
+		session['logged'] = False
+		return redirect('/home')
+	session['logged'] = False
+	return render_template('logout.html')
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', debug=True)
