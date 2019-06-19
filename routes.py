@@ -35,11 +35,22 @@ def login():
 	psw = request.form['password']
 	try:
 		query = User.get(User.name == name)
+		if query.password == sha256(psw.encode()):
+			session['username'] = name
+			session['logged'] = True
+		return redirect(f'/user/<{name}>')
 	except Exception as e:
-		query = False
 		print('Error: ', e)
-	session['username'] = name
-	session['logged'] = True
+		return redirect('/home')
+
+@app.route('/user/<username>')
+def user_page(username):
+	try:
+		query = User.get(User.name == username)
+		print(query)
+	except Exception as e:
+		print('Error: ', e)
+		return redirect('/home')
 
 @app.route('/logout')
 def logout():
