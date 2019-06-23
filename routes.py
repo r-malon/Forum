@@ -24,10 +24,11 @@ def signup():
 	if name is not query:
 		User.create(
 			name=name, 
-			password=sha256(psw.encode()), 
-			join_date=datetime.now())
-	session['username'] = name
-	session['logged'] = True
+			password=sha256(psw.encode()).hexdigest(), 
+			join_date=str(datetime.utcnow()))
+		session['username'] = name
+		session['logged'] = True
+		return redirect(f'/user/<{name}>')
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -35,7 +36,7 @@ def login():
 	psw = request.form['password']
 	try:
 		query = User.get(User.name == name)
-		if query.password == sha256(psw.encode()):
+		if query.password == sha256(psw.encode()).hexdigest():
 			session['username'] = name
 			session['logged'] = True
 		return redirect(f'/user/<{name}>')
@@ -47,7 +48,9 @@ def login():
 def user_page(username):
 	try:
 		query = User.get(User.name == username)
-		print(query)
+		return render_template('userpage.html', 
+			username=query.name, 
+			img_src=f"https://gravatar.com/avatar/{sha256(username.encode()).hexdigest()}?d=identicon&s=128")
 	except Exception as e:
 		print('Error: ', e)
 		return redirect('/home')

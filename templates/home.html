@@ -19,5 +19,15 @@
 		<input type="password" name="password" placeholder="Password: ">
 		<button>Login</button>
 	</form>
+
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	<ul style="text-align: center;">
+		{% for msg in messages %}
+		<li style="float: none;">{{ msg }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	{% endwith %}
 </body>
 </html>

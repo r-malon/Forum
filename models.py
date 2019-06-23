@@ -12,7 +12,12 @@ class User(BaseModel):
 	password = CharField()
 	join_date = CharField()
 
+class Post(BaseModel):
+	author = ForeignKeyField(User, backref='user')
+	title = CharField()
+	body = CharField()
+
 try:
-	db.create_tables([User])
+	db.create_tables([User, Post])
 except Exception as e:
 	print('Error: ', e)
