@@ -17,11 +17,6 @@ def signup():
 	name = request.form['name']
 	psw = request.form['password']
 	try:
-		query = User.get(User.name == name)
-	except Exception as e:
-		query = False
-		print('Error: ', e)
-	if name is not query:
 		User.create(
 			name=name, 
 			password=sha256(psw.encode()).hexdigest(), 
@@ -29,6 +24,9 @@ def signup():
 		session['username'] = name
 		session['logged'] = True
 		return redirect(f'/user/<{name}>')
+	except Exception as e:
+		flash('Signup failed!')
+		return redirect('/home')
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -41,7 +39,7 @@ def login():
 			session['logged'] = True
 		return redirect(f'/user/<{name}>')
 	except Exception as e:
-		print('Error: ', e)
+		flash('Login failed!')
 		return redirect('/home')
 
 @app.route('/user/<username>')
@@ -52,7 +50,7 @@ def user_page(username):
 			username=query.name, 
 			img_src=f"https://gravatar.com/avatar/{sha256(username.encode()).hexdigest()}?d=identicon&s=128")
 	except Exception as e:
-		print('Error: ', e)
+		flash('User not found')
 		return redirect('/home')
 
 @app.route('/logout')
