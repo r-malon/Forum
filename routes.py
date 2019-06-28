@@ -2,6 +2,7 @@ from flask import *
 from models import *
 from datetime import datetime
 from hashlib import sha256
+from random import choice
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
@@ -28,7 +29,7 @@ def signup():
 		User.create(
 			name=name, 
 			password=sha256(psw.encode()).hexdigest(), 
-			join_date=str(datetime.utcnow()))[:18]
+			join_date=str(datetime.utcnow())[:19])
 		session['username'] = name
 		session['logged'] = True
 		return redirect(f'/user/{name}')
