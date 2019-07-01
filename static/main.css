@@ -1,0 +1,117 @@
+@font-face {
+    font-family: 'Virtual DJ';
+    src: url('../fonts/virtual-dj.ttf');
+}
+*{
+	font-family: sans-serif;
+}
+body, html{
+	height: 100%;
+	margin: 0;
+}
+section{
+	height: 70%;
+	padding-top: 5%;
+	background-image: url('../img/what-the-hex.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: flex;
+}
+a img{
+	width: 45px;
+	height: 28px;
+	position: absolute;
+}
+h2{
+	text-decoration: underline;
+	margin-left: 30px;
+	margin-bottom: -10px;
+}
+h1{
+	color: gainsboro;
+	font-size: 72px;
+	padding-top: 15%;
+	text-align: center;
+	font-family: 'Virtual DJ';
+	animation: colorfull 2s infinite 1s;
+}
+table, th, td{
+	border: 1px solid black;
+	border-collapse: collapse;
+	margin-left: 40px;
+	margin-bottom: 20px;
+}
+table{
+	margin: 30px;
+	margin-bottom: -40px;
+}
+th{
+	background-color: teal;
+	color: white;
+}
+th, td{
+	padding: 10px;
+	text-align: center;
+}
+table tr:nth-child(even){
+	background-color: lightgreen;
+}
+p{
+	font-size: 18px;
+	text-align: justify;
+}
+article p{
+	text-indent: 15px;
+	font-size: 18px;
+	margin-left: 20px;
+	text-align: justify;
+}
+article p::first-letter{
+	font-size: 24px;
+}
+#circle{
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	background-color: #333;
+	border: none;
+	cursor: pointer;
+	box-shadow: 0 7px black;
+}
+i[class~="fa"]{
+	color: lightgrey;
+}
+#circle:hover{
+	background-color: black;
+	box-shadow: 0 7px #333;
+}
+#circle:active{
+	box-shadow: none;
+	margin-top: 5px;
+}
+footer{
+	color: white;
+	width: 100%;
+	text-align: center;
+	height: 45px;
+	background-color: #333;
+	position: absolute;
+}
+footer div{
+	padding: 10px;
+	font-size: 105%;
+	font-family: sans-serif;
+}
+.card{
+	padding: 0 10px;
+	width: 30%;
+	box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.3);
+	margin: 0 15px 30px;
+}
+.card div{
+	padding: 0 15px;
+}
+.card:hover{
+	box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.35);
+}

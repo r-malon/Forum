@@ -9,12 +9,12 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['SECRET_KEY'] = 'hey_baby'
 
 error_msg = [
-'Prepare for unforeseen consequences', 
-'And another page bites the dust...', 
-'Away with you, vile error!', 
-'Mayday, Mayday!!!', 
-'O problema é na mangueira!', 
-'Flask, we have a problem!']
+	'Prepare for unforeseen consequences', 
+	'And another page bites the dust...', 
+	'Away with you, vile error!', 
+	'Mayday, Mayday!!!', 
+	'O problema é na mangueira!', 
+	'Flask, we have a problem!']
 
 @app.route('/')
 @app.route('/home')
