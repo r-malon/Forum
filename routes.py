@@ -3,6 +3,7 @@ from models import *
 from datetime import datetime
 from hashlib import sha256
 from random import choice
+from uuid import uuid4
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
@@ -25,10 +26,12 @@ def home():
 def signup():
 	name = request.form['name']
 	psw = request.form['password']
+	salt = uuid4().hex
 	try:
 		User.create(
 			name=name, 
-			password=sha256(psw.encode()).hexdigest(), 
+			password=sha256((psw + salt).encode()).hexdigest(), 
+			salt=salt, 
 			join_date=str(datetime.utcnow())[:19])
 		session['username'] = name
 		session['logged'] = True
@@ -43,7 +46,7 @@ def login():
 	psw = request.form['password']
 	try:
 		query = User.get(User.name == name)
-		if query.password == sha256(psw.encode()).hexdigest():
+		if query.password == sha256((psw + query.salt).encode()).hexdigest():
 			session['username'] = name
 			session['logged'] = True
 			return redirect(f'/user/{name}')

@@ -10,10 +10,11 @@ class BaseModel(Model):
 class User(BaseModel):
 	name = CharField(unique=True)
 	password = CharField()
+	salt = CharField()
 	join_date = CharField()
 
 class Post(BaseModel):
-	author = ForeignKeyField(User, backref='user')
+	author = ForeignKeyField(User, backref='users')
 	title = CharField()
 	body = CharField()
 
