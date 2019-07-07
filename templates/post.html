@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>{{username}}'s profile</title>
+	<title>{{title}}</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href="{{ url_for('static', filename='img/fallout.ico') }}" rel="shortcut icon" type="image/x-icon">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
@@ -9,8 +9,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-	<img src={{img_src}}>
-	<h1>{{username}}</h1>
-	<p>Joined on: {{join_date}}</p>
+	<h1>{{title}}</h1>
+	<p>By {{author}} at {{time}}</p>
+	<p>{{body}}</p>
 </body>
 </html>

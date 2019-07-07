@@ -10,6 +10,7 @@
 </head>
 <body>
 	<h1 style="text-align: center;">Fórum</h1>
+	{% if not session['logged'] %}
 	<form action="/signup" method="post">
 		<h3>Signup</h3>
 		<input type="text" name="name" placeholder="Name: ">
@@ -23,6 +24,19 @@
 		<input type="password" name="password" placeholder="Password: ">
 		<button>Login</button>
 	</form>
+	{% endif %}
+
+	{% if session['logged'] %}
+	<form action="/create_post" method="post">
+		<h3>Create a post</h3>
+		<input type="text" name="title" placeholder="Title: ">
+		<textarea name="body" placeholder="Write down your thoughts..."></textarea>
+	</form>
+
+	<form action="/logout">
+		<button>Log Out</button>
+	</form>
+	{% endif %}
 
 	{% with messages = get_flashed_messages() %}
 	{% if messages %}

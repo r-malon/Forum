@@ -8,6 +8,7 @@ from uuid import uuid4
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['SECRET_KEY'] = 'hey_baby'
+session['logged'] = False
 
 error_msg = [
 	'Prepare for unforeseen consequences', 
@@ -65,6 +66,32 @@ def user_page(username):
 			img_src=f"https://gravatar.com/avatar/{sha256(username.encode()).hexdigest()}?d=identicon&s=128")
 	except Exception as e:
 		flash('User not found')
+		return redirect('/home')
+
+@app.route('/create_post')
+def create_post():
+	title = request.form['title']
+	body = request.form['body']
+	try:
+		Post.create(
+			title=title, 
+			body=body, 
+			post_time=str(datetime.utcnow())[:19])
+	except Exception as e:
+		flash('Posting failed!')
+		return redirect('/home')
+
+@app.route('/post/<post_id>')
+def post(post_id):
+	try:
+		query = Post.get(Post.id == post_id)
+		return render_template('post.html', 
+			author=User.get(User.id == query.author_id).name, 
+			title=query.title, 
+			body=query.body, 
+			time=query.post_time)
+	except Exception as e:
+		flash('Post not found')
 		return redirect('/home')
 
 @app.route('/logout')

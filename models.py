@@ -1,6 +1,6 @@
 from peewee import *
 
-db = SqliteDatabase('users.db')
+db = SqliteDatabase('data.db')
 db.connect()
 
 class BaseModel(Model):
@@ -17,8 +17,10 @@ class Post(BaseModel):
 	author = ForeignKeyField(User, backref='users')
 	title = CharField()
 	body = CharField()
+	post_time = CharField()
 
 try:
 	db.create_tables([User, Post])
 except Exception as e:
 	print('Error: ', e)
+	db.close()
