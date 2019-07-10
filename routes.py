@@ -8,7 +8,7 @@ from uuid import uuid4
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['SECRET_KEY'] = 'hey_baby'
-session['logged'] = False
+#session['logged'] = False #needs active request
 
 error_msg = [
 	'Prepare for unforeseen consequences', 
@@ -68,15 +68,20 @@ def user_page(username):
 		flash('User not found')
 		return redirect('/home')
 
-@app.route('/create_post')
+@app.route('/create_post', methods=['POST'])
 def create_post():
 	title = request.form['title']
 	body = request.form['body']
 	try:
-		Post.create(
+		if not session['logged']:
+			flash('Login required!')
+			raise Exception
+		post = Post.create(
+			author=User.get(User.name == session['username']), #use id?
 			title=title, 
 			body=body, 
 			post_time=str(datetime.utcnow())[:19])
+		return redirect(f'/post/{post.id}')
 	except Exception as e:
 		flash('Posting failed!')
 		return redirect('/home')
@@ -96,12 +101,11 @@ def post(post_id):
 
 @app.route('/logout')
 def logout():
+	session['logged'] = False
 	try:
 		session.pop('username')
 	except KeyError:
-		session['logged'] = False
 		return redirect('/home')
-	session['logged'] = False
 	return render_template('logout.html')
 
 @app.errorhandler(404)
