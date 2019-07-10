@@ -14,7 +14,7 @@ class User(BaseModel):
 	join_date = CharField()
 
 class Post(BaseModel):
-	author = ForeignKeyField(User, backref='users')
+	author = ForeignKeyField(User, backref='posts')
 	title = CharField()
 	body = CharField()
 	post_time = CharField()

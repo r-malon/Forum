@@ -8,7 +8,6 @@ from uuid import uuid4
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['SECRET_KEY'] = 'hey_baby'
-#session['logged'] = False #needs active request
 
 error_msg = [
 	'Prepare for unforeseen consequences', 
