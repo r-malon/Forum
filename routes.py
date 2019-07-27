@@ -85,7 +85,7 @@ def create_post():
 		flash('Posting failed!')
 		return redirect('/home')
 
-@app.route('/post/<post_id>')
+@app.route('/post/<int:post_id>')
 def post(post_id):
 	try:
 		query = Post.get(Post.id == post_id)

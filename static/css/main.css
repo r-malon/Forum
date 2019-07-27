@@ -25,12 +25,8 @@ h2{
 	margin-bottom: -10px;
 }
 h1{
-	color: gainsboro;
 	font-size: 52px;
-	padding-top: 15%;
 	text-align: center;
-	font-family: 'Virtual DJ';
-	animation: colorfull 2s infinite 1s;
 }
 table, th, td{
 	border: 1px solid black;
@@ -62,9 +58,6 @@ article p{
 	font-size: 18px;
 	margin-left: 20px;
 	text-align: justify;
-}
-article p::first-letter{
-	font-size: 24px;
 }
 #circle{
 	width: 80px;

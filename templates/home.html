@@ -13,26 +13,28 @@
 	{% if not session['logged'] %}
 	<form action="/signup" method="post">
 		<h3>Signup</h3>
-		<input type="text" name="name" placeholder="Name: ">
-		<input type="password" name="password" placeholder="Password: ">
+		<input type="text" name="name" placeholder="Name: " pattern="[^('\x22\s)].{3,22}" required>
+		<input type="password" name="password" placeholder="Password: " pattern=".{6,}" required>
 		<button>Signup</button>
 	</form>
 
 	<form action="/login" method="post" style="float: right;">
 		<h3>Login</h3>
-		<input type="text" name="name" placeholder="Name: ">
-		<input type="password" name="password" placeholder="Password: ">
+		<input type="text" name="name" placeholder="Name: " required>
+		<input type="password" name="password" placeholder="Password: " required>
 		<button>Login</button>
 	</form>
 	{% endif %}
 
 	{% if session['logged'] %}
-	<form action="/create_post" method="post">
-		<h3>Create a post</h3>
-		<input type="text" name="title" placeholder="Title: ">
-		<textarea name="body" placeholder="Write down your thoughts..."></textarea>
-		<button>Post!</button>
-	</form>
+	<fieldset>
+		<form action="/create_post" method="post">
+			<h3>Create a post</h3>
+			<input type="text" name="title" placeholder="Title: " pattern=".{3,52}" required>
+			<textarea name="body" placeholder="Write down your thoughts..." required></textarea>
+			<button>Post!</button>
+		</form>
+	</fieldset>
 
 	<form action="/logout">
 		<button>Log Out</button>

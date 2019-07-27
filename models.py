@@ -15,12 +15,17 @@ class User(BaseModel):
 
 class Post(BaseModel):
 	author = ForeignKeyField(User, backref='posts')
+	category = ForeignKeyField(Category, backref='posts')
 	title = CharField()
 	body = CharField()
 	post_time = CharField()
 
+class Category(BaseModel):
+	name = CharField(unique=True)
+	icon_name = CharField()
+
 try:
-	db.create_tables([User, Post])
+	db.create_tables([User, Post, Category])
 except Exception as e:
 	print('Error: ', e)
 	db.close()
