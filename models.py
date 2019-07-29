@@ -13,16 +13,16 @@ class User(BaseModel):
 	salt = CharField()
 	join_date = CharField()
 
+class Category(BaseModel):
+	name = CharField(unique=True)
+	icon_name = CharField()
+
 class Post(BaseModel):
 	author = ForeignKeyField(User, backref='posts')
 	category = ForeignKeyField(Category, backref='posts')
 	title = CharField()
 	body = CharField()
 	post_time = CharField()
-
-class Category(BaseModel):
-	name = CharField(unique=True)
-	icon_name = CharField()
 
 try:
 	db.create_tables([User, Post, Category])

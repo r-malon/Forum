@@ -67,6 +67,20 @@ def user_page(username):
 		flash('User not found')
 		return redirect('/home')
 
+@app.route('/categories')
+def list_categories():
+	return render_template('categories.html', 
+		categories=Category.select(Category.name))
+
+@app.route('/category/<name>')
+def category_page(name):
+	try:
+		name = Category.get(Category.name == name)
+		return render_template('categories.html', name=name, )
+	except Exception as e:
+		flash('Category not found')
+		return redirect('/home')
+
 @app.route('/create_post', methods=['POST'])
 def create_post():
 	title = request.form['title']

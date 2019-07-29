@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Fórum</title>
+	<title>Forum</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href="{{ url_for('static', filename='img/fallout.ico') }}" rel="shortcut icon" type="image/x-icon">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-	<h1 style="text-align: center;">Fórum</h1>
+	<h1 style="text-align: center;">Forum</h1>
 	{% if not session['logged'] %}
 	<form action="/signup" method="post">
 		<h3>Signup</h3>
