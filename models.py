@@ -24,6 +24,12 @@ class Post(BaseModel):
 	body = CharField()
 	post_time = CharField()
 
+class Comment(BaseModel):
+	author = ForeignKeyField(User, backref='comments')
+	post = ForeignKeyField(Post, backref='comments')
+	body = CharField()
+	post_time = CharField()
+
 try:
 	db.create_tables([User, Post, Category])
 except Exception as e:

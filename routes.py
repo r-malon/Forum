@@ -102,9 +102,9 @@ def create_post():
 @app.route('/post/<int:post_id>')
 def post(post_id):
 	try:
-		query = Post.get(Post.id == post_id)
+		query = Post.get_by_id(post_id)
 		return render_template('post.html', 
-			author=User.get(User.id == query.author_id).name, 
+			author=User.get_by_id(query.author_id).name, 
 			title=query.title, 
 			body=query.body, 
 			time=query.post_time)
