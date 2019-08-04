@@ -14,13 +14,14 @@ error_msg = [
 	'And another page bites the dust...', 
 	'Away with you, vile error!', 
 	'Mayday, Mayday!!!', 
+	'Error 6, going dark...', 
 	'O problema é na mangueira!', 
 	'Flask, we have a problem!']
 
 @app.route('/')
 @app.route('/home')
 def home():
-	return render_template('home.html')
+	return render_template('home.html', categories=Category.select())
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -75,8 +76,11 @@ def list_categories():
 @app.route('/category/<name>')
 def category_page(name):
 	try:
-		name = Category.get(Category.name == name)
-		return render_template('categories.html', name=name, )
+		name = Category.get(Category.name == name).name
+		post_list = Post.select().where(Post.category.name == name)
+		return render_template('category_page.html', 
+			name=name, 
+			post_list=post_list)
 	except Exception as e:
 		flash('Category not found')
 		return redirect('/home')
@@ -85,12 +89,14 @@ def category_page(name):
 def create_post():
 	title = request.form['title']
 	body = request.form['body']
+	category = request.form['category']
 	try:
 		if not session['logged']:
 			flash('Login required!')
 			raise Exception
 		post = Post.create(
 			author=User.get(User.name == session['username']), #use id?
+			category=category, 
 			title=title, 
 			body=body, 
 			post_time=str(datetime.utcnow())[:19])
@@ -102,13 +108,17 @@ def create_post():
 @app.route('/post/<int:post_id>')
 def post(post_id):
 	try:
-		query = Post.get_by_id(post_id)
+		post = Post.get_by_id(post_id)
+		comments = Comment.select().where(Comment.post == post)
 		return render_template('post.html', 
-			author=User.get_by_id(query.author_id).name, 
-			title=query.title, 
-			body=query.body, 
-			time=query.post_time)
+			author=User.get_by_id(post.author_id).name, 
+			title=post.title, 
+			body=post.body, 
+			time=post.post_time, 
+			comments=comments, 
+			comment_count=len(comments))
 	except Exception as e:
+		print(e)
 		flash('Post not found')
 		return redirect('/home')
 

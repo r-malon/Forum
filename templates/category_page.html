@@ -9,10 +9,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-	<h1 style="text-align: center;">Categories</h1>
+	<h1 style="text-align: center;">{{name}}</h1>
 	<ul>
-		{% for category in categories %}
-		<li><a href="/category/{{category.name}}">{{category.name}}</a></li>
+		{% for post in post_list %}
+		<li><a href="/post/{{post.id}}">{{post.title}}</a></li>
 		{% endfor %}
 	</ul>
 </body>

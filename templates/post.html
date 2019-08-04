@@ -3,14 +3,36 @@
 <head>
 	<title>{{title}}</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link href="{{ url_for('static', filename='img/fallout.ico') }}" rel="shortcut icon" type="image/x-icon">
+	<link href="{{ url_for('static', filename='img/icon.ico') }}" rel="shortcut icon" type="image/x-icon">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script>
+		function (message) {
+		    const msgBuffer = new TextEncoder('utf-8').encode(message);
+		    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+		    const hashArray = Array.from(new Uint8Array(hashBuffer));
+		    const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+		    return hashHex;
+		}
+	</script>
 </head>
 <body>
 	<h1>{{title}}</h1>
 	<p>By {{author}} at {{time}}</p>
 	<p>{{body}}</p>
+
+	<p>{{comment_count}} comments</p>
+
+	<form action="/create_comment" method="post">
+		<textarea name="body" placeholder="Write down your comments..." required></textarea>
+		<button>Comment!</button>
+	</form>
+
+	{% for comment in comments %}
+	<img src=sha256({{img_src}})>
+	<p>{{comment.author.name}} commented on {{comment.post_time}}</p>
+	<p>{{comment.body}}</p>
+	{% endfor %}
 </body>
 </html>
