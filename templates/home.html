@@ -1,59 +1,82 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Forum</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link href="{{ url_for('static', filename='img/icon.ico') }}" rel="shortcut icon" type="image/x-icon">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-	<h1 style="text-align: center;">Forum</h1>
-	{% if not session['logged'] %}
-	<form action="/signup" method="post">
-		<h3>Signup</h3>
-		<input type="text" name="name" placeholder="Name: " pattern="[^('\x22\s)].{3,22}" required>
-		<input type="password" name="password" placeholder="Password: " pattern=".{6,}" required>
-		<button>Signup</button>
-	</form>
+{% extends "base.html" %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
 
-	<form action="/login" method="post" style="float: right;">
-		<h3>Login</h3>
-		<input type="text" name="name" placeholder="Name: " required>
-		<input type="password" name="password" placeholder="Password: " required>
-		<button>Login</button>
-	</form>
+{% block content %}
+	<div class="jumbotron text-center">
+		<h1>Forum</h1>
+	</div>
+
+	{% block navbar %}
+		{{ super() }}
+	{% endblock %}
+
+	{% if not session['logged'] %}
+	<div class="container-fluid d-flex justify-content-center">
+		<div class="row">
+			<div class="col m-3 p-3 shadow">
+				<form action="/signup" method="post">
+					<h3>Signup</h3>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="Name: " pattern="[^('\x22\s)].{3,22}" required>
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" name="password" placeholder="Password: " pattern=".{6,}" required>
+					</div>
+					<button class="btn btn-primary">Signup</button>
+				</form>
+			</div>
+
+			<div class="col m-3 p-3 shadow">
+				<form action="/login" method="post">
+					<h3>Login</h3>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="Name: " required>
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" name="password" placeholder="Password: " required>
+					</div>
+					<button class="btn btn-primary">Login</button>
+				</form>
+			</div>
+		</div>
+	</div>
 	{% endif %}
+
 
 	{% if session['logged'] %}
-	<fieldset>
-		<form action="/create_post" method="post">
-			<h3>Create a post</h3>
-			<input type="text" name="title" placeholder="Title: " pattern=".{3,52}" required>
-			<textarea name="body" placeholder="Write down your thoughts..." required></textarea>
-			<select name="category" required>
-				{% for category in categories %}
-				<option value="{{category}}">{{category.name}}</option>
-				{% endfor %}
-			</select>
-			<button>Post!</button>
+	<div class="container">
+		<fieldset>
+			<form action="/create_post" method="post">
+				<h3>Create a post</h3>
+				<br>
+				<div class="form-group">
+					<input type="text" class="form-control" name="title" placeholder="Title: " pattern=".{3,52}" required>
+				</div>
+				<div class="form-group">
+					<textarea name="body" class="form-control" placeholder="Write down your thoughts..." required></textarea>
+				</div>
+				<div class="form-group">
+					<select name="category" class="form-control" required>
+						{% for category in categories %}
+						<option value="{{category}}">{{category.name}}</option>
+						{% endfor %}
+					</select>
+				</div>
+
+				<button class="btn btn-primary">Post!</button>
+			</form>
+		</fieldset>
+
+		<form action="/logout">
+			<button class="btn btn-danger btn-lg">Log Out</button>
 		</form>
-	</fieldset>
+	</div>
 
-	<form action="/logout">
-		<button>Log Out</button>
-	</form>
-	{% endif %}
+	{% block alerts %}
+		{{ super() }}
+	{% endblock %}
 
-	{% with messages = get_flashed_messages() %}
-	{% if messages %}
-	<ul style="text-align: center;">
-		{% for msg in messages %}
-		<li style="float: none;">{{ msg }}</li>
-		{% endfor %}
-	</ul>
 	{% endif %}
-	{% endwith %}
-</body>
-</html>
+{% endblock %}

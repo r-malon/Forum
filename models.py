@@ -7,6 +7,7 @@ class BaseModel(Model):
 	class Meta:
 		database = db
 
+
 class User(BaseModel):
 	name = CharField(unique=True)
 	password = CharField()
@@ -30,13 +31,16 @@ class Comment(BaseModel):
 	body = CharField()
 	post_time = CharField()
 
+
 try:
 	db.create_tables([User, Post, Category, Comment])
 	Category.create(name='Politics', icon_name='xxx')
-	Comment.create(author=User.get_by_id(2), 
+	Comment.create(
+		author=User.get_by_id(2), 
 		post=Post.get_by_id(1), 
 		body='hôwdy?', 
-		post_time='2019-08-04 19:41:57')
+		post_time='2019-08-04 19:41:57'
+	)
 except Exception as e:
 	print('Error: ', e)
 	db.close()
